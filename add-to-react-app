@@ -1,0 +1,33 @@
+import React, { useState } from 'react';
+
+function App() {
+  const [responseData, setResponseData] = useState(null);
+
+  const sendData = async () => {
+    try {
+      const response = await fetch('http://<some-id>.ngrok.io/process', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          key: 'value'  // Replace this with your actual data
+        })
+      });
+
+      const data = await response.json();
+      setResponseData(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  return (
+    <div className="App">
+      <button onClick={sendData}>Send Data to Flask</button>
+      {responseData && <div>Response: {JSON.stringify(responseData)}</div>}
+    </div>
+  );
+}
+
+export default App;
